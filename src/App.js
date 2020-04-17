@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import { Listener } from './Listener'
 import { trigger, query } from 'polyrhythm'
@@ -9,10 +9,10 @@ query(true /* all events */).subscribe(event => {
 })
 
 export default function App() {
-  const clickCount = useRef(0)
+  const [clickCount, setClickCount] = useState(0)
   function increment() {
-    trigger('user/incrementTo', clickCount.current+1)
-    clickCount.current += 1
+    trigger('user/incrementTo', clickCount+1)
+    setClickCount(c => { return c+1 })
   }
   return (
     <div className="App">
