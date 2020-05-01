@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { Listener } from './Listener'
+import { trigger, query } from 'polyrhythm'
+
+query(true /* all events */).subscribe(event => {
+  const { type, payload } = event
+  console.log(`${type}: ${JSON.stringify(payload)}`)
+})
 
 export default function App() {
   const [clickCount, setClickCount] = useState(0)
   function increment() {
-    setClickCount(prev => prev + 1)
+    trigger('user/incrementTo', clickCount+1)
+    setClickCount(c => { return c+1 })
   }
   return (
     <div className="App">
@@ -14,8 +21,8 @@ export default function App() {
       <button onClick={increment}>Increment</button>
       <ul className="grid-x grid-margin-x">
         
-        <Listener max={5} num={clickCount} throwOnNumber={2}/>
-        <Listener max={5} num={clickCount} />
+        <Listener max={5} throwOnNumber={2}/>
+        <Listener max={5}  />
       </ul>
     </div>
   );
